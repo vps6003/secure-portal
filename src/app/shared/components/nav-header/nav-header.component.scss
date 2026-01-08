@@ -1,0 +1,8 @@
+/* styles.scss or component scss */
+.nav-link {
+  @apply text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent;
+}
+
+.nav-link.active-link {
+  @apply text-[aquamarine] border-cyan-500;
+}

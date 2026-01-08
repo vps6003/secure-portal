@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { SessionManager } from '../auth/session.manager';
 
 let handling401 = false;
 
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const notify = inject(NotificationService);
   const router = inject(Router);
+  const sessionManager = inject(SessionManager);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -20,8 +22,8 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (error.status === 401 && !handling401) {
         handling401 = true;
-        localStorage.clear();
-        router.navigate(['/auth']).finally(() => {
+        sessionManager.clearSession();
+        router.navigate(['/login']).finally(() => {
           handling401 = false;
         });
         return throwError(() => error);

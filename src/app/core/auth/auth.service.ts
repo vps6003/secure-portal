@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthLogin, LoginResponse, VerifyTokenResponse } from './auth.models';
+import { AuthLogin, LoginResponse, RegisterRequest, VerifyTokenResponse } from './auth.models';
 import { environment } from '../../../environments/environment';
 import { LOADER_KIND } from '../http/loader.context';
 
@@ -21,7 +21,7 @@ export class AuthService {
       context: new HttpContext().set(LOADER_KIND, 'auth'),
     });
 
-  authRegister = (obj: AuthLogin): Observable<{ message: string }> =>
+  authRegister = (obj: RegisterRequest): Observable<{ message: string }> =>
     this.http.post<{ message: string }>(environment.authRegisterApiUrl, obj, {
       context: new HttpContext().set(LOADER_KIND, 'auth'),
     });

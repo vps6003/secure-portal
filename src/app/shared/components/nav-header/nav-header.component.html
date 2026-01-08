@@ -1,80 +1,53 @@
 <nav class="fixed top-0 left-0 right-0 z-[1000] bg-white shadow-md border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+  <div class="max-w-7xl mx-auto px-2 flex items-center justify-between h-16">
     <div>
       <a
-        routerLink="/"
-        class="text-xl font-bold text-gray-800 no-underline transition-colors hover:text-blue-600"
+        routerLink="/dashboard"
+        class="text-xl font-bold text-gray-800 no-underline transition-colors hover:text-cyan-600"
       >
+        <img src="assets/logo.png" alt="logo" class="h-8 w-auto inline-block mr-2" />
         SecurePortal
       </a>
     </div>
+
     <ul class="flex list-none m-0 p-0 gap-8 items-center">
-      <li class="m-0">
-        <a
-          routerLink="/"
-          routerLinkActive="text-blue-600"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-blue-600 relative"
-        >
-          Home
-          <span
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
-            [class.hidden]="
-              !router.isActive('/home', {
-                paths: 'exact',
-                matrixParams: 'ignored',
-                queryParams: 'ignored',
-                fragment: 'ignored'
-              })
-            "
-          ></span>
-        </a>
-      </li>
-      <li class="m-0">
-        <a
-          routerLink="/auth"
-          routerLinkActive="text-blue-600"
-          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-blue-600 relative"
-        >
-          Login
-          <span
-            class="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"
-            [class.hidden]="
-              !router.isActive('/auth', {
-                paths: 'subset',
-                matrixParams: 'ignored',
-                queryParams: 'ignored',
-                fragment: 'ignored'
-              })
-            "
-          ></span>
-        </a>
-      </li>
-      <li class="m-0">
+      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn()">
         <a
           routerLink="/dashboard"
-          routerLinkActive="text-blue-600"
-          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-blue-600 relative"
+          routerLinkActive="!text-cyan-600 border-cyan-500"
+          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent"
         >
           Dashboard
         </a>
       </li>
-      <li class="m-0">
+
+      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn()">
         <a
           routerLink="/profile"
-          routerLinkActive="text-blue-600"
-          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-blue-600 relative"
+          routerLinkActive="!text-cyan-600 border-cyan-500"
+          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent"
         >
           Profile
         </a>
       </li>
-      <li class="m-0">
+
+      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn() && !sessionManager.isAdmin()">
         <a
           routerLink="/admin"
-          routerLinkActive="text-blue-600"
-          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-blue-600 relative"
+          routerLinkActive="!text-cyan-600 border-cyan-500"
+          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent"
         >
           Admin
+        </a>
+      </li>
+
+      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn()">
+        <a
+          routerLinkActive="!text-cyan-600 border-cyan-500"
+          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent cursor-pointer"
+          (click)="logout()"
+        >
+          Logout
         </a>
       </li>
     </ul>

@@ -23,7 +23,7 @@ export class AuthComponent {
     if (token) {
       this.authService.verifyToken().subscribe((response: any) => {
         try {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/dashboard']);
         } catch {}
       });
     }
@@ -32,5 +32,9 @@ export class AuthComponent {
 
   toggleMode() {
     this.isLoginMode.update((mode) => !mode);
+  }
+
+  onSignupCompleted() {
+    this.isLoginMode.set(true);
   }
 }

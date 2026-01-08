@@ -11,13 +11,10 @@
       [class.border-gray-300]="!(name?.invalid && name?.touched)"
     />
     @if (name?.invalid && name?.touched) {
-      <span class="text-xs text-red-500">
-        @if (name?.errors?.['required']) {
-          Name is required
-        } @else if (name?.errors?.['minlength']) {
-          Name must be at least 2 characters
-        }
-      </span>
+    <span class="text-xs text-red-500">
+      @if (name?.errors?.['required']) { Name is required } @else if (name?.errors?.['minlength']) {
+      Name must be at least 2 characters }
+    </span>
     }
   </div>
 
@@ -33,13 +30,10 @@
       [class.border-gray-300]="!(email?.invalid && email?.touched)"
     />
     @if (email?.invalid && email?.touched) {
-      <span class="text-xs text-red-500">
-        @if (email?.errors?.['required']) {
-          Email is required
-        } @else if (email?.errors?.['email']) {
-          Please enter a valid email
-        }
-      </span>
+    <span class="text-xs text-red-500">
+      @if (email?.errors?.['required']) { Email is required } @else if (email?.errors?.['email']) {
+      Please enter a valid email }
+    </span>
     }
   </div>
 
@@ -55,13 +49,10 @@
       [class.border-gray-300]="!(password?.invalid && password?.touched)"
     />
     @if (password?.invalid && password?.touched) {
-      <span class="text-xs text-red-500">
-        @if (password?.errors?.['required']) {
-          Password is required
-        } @else if (password?.errors?.['minlength']) {
-          Password must be at least 8 characters
-        }
-      </span>
+    <span class="text-xs text-red-500">
+      @if (password?.errors?.['required']) { Password is required } @else if
+      (password?.errors?.['minlength']) { Password must be at least 8 characters }
+    </span>
     }
   </div>
 
@@ -77,33 +68,33 @@
       [class.border-gray-300]="!((confirmPassword?.invalid || registerForm.errors?.['passwordMismatch']) && confirmPassword?.touched)"
     />
     @if (confirmPassword?.invalid && confirmPassword?.touched) {
-      <span class="text-xs text-red-500">
-        @if (confirmPassword?.errors?.['required']) {
-          Please confirm your password
-        }
-      </span>
-    }
-    @if (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched && confirmPassword?.value) {
-      <span class="text-xs text-red-500">Passwords do not match</span>
+    <span class="text-xs text-red-500">
+      @if (confirmPassword?.errors?.['required']) { Please confirm your password }
+    </span>
+    } @if (registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched &&
+    confirmPassword?.value) {
+    <span class="text-xs text-red-500">Passwords do not match</span>
     }
   </div>
 
   <div class="flex flex-col gap-2">
     <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-600">
       <input type="checkbox" formControlName="acceptTerms" class="w-4 h-4 cursor-pointer" />
-      <span>I agree to the <a href="#" class="text-blue-600 hover:underline">Terms and Conditions</a></span>
+      <span
+        >I agree to the
+        <a href="#" class="text-blue-600 hover:underline">Terms and Conditions</a></span
+      >
     </label>
     @if (acceptTerms?.invalid && acceptTerms?.touched) {
-      <span class="text-xs text-red-500">You must accept the terms</span>
+    <span class="text-xs text-red-500">You must accept the terms</span>
     }
   </div>
 
   <button
     type="submit"
     class="w-full py-3.5 bg-blue-600 text-white rounded-md text-base font-semibold cursor-pointer transition-colors mt-2 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
-    [disabled]="isSubmitting || registerForm.invalid"
+    [disabled]="loader.isAuthLoading() || registerForm.invalid"
   >
-    {{ isSubmitting ? 'Creating account...' : 'Create account' }}
+    {{ loader.isAuthLoading() ? 'Creating account...' : 'Create account' }}
   </button>
 </form>
-
