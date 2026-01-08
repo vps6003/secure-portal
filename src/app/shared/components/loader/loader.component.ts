@@ -30,7 +30,6 @@ import { LoaderService } from '../../../core/services/loader.service';
           <span class="w-1 h-2 bg-blue-600 animate-pulse"></span>
           <span class="w-1 h-4 bg-blue-600 animate-pulse"></span>
           <span class="w-1 h-6 bg-blue-600 animate-pulse"></span>
-          <h2>Logging In</h2>
         </div>
         } @if (global()) {
         <!-- GLOBAL LOADER -->
