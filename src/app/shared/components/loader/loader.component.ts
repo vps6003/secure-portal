@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-loader',
   imports: [CommonModule],
   template: `
-    <div class="loader-backdrop" *ngIf="loader.isLoading()">
+    <div class="loader-backdrop" *ngIf="loader.isGlobalLoading()">
       <div class="spinner"></div>
     </div>
   `,

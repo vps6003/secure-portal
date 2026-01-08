@@ -1,34 +1,38 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { NotificationService } from '../services/notification.service';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotificationService } from '../services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
 
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private notify: NotificationService, private router: Router) {}
+let handling401 = false;
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        const message = error.error?.message || 'Something went wrong';
+export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
+  const notify = inject(NotificationService);
+  const router = inject(Router);
 
-        this.notify.error(message);
-
-        if (error.status === 401) {
-          localStorage.clear();
-          this.router.navigate(['/auth']);
-        }
-
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 0) {
+        notify.error('Network error. Please check your connection.');
         return throwError(() => error);
-      })
-    );
-  }
-}
+      }
+
+      if (error.status === 401 && !handling401) {
+        handling401 = true;
+        localStorage.clear();
+        router.navigate(['/auth']).finally(() => {
+          handling401 = false;
+        });
+        return throwError(() => error);
+      }
+
+      const message =
+        error.error?.message || error.error?.error || error.message || 'Something went wrong';
+
+      notify.error(message);
+
+      return throwError(() => error);
+    })
+  );
+};
