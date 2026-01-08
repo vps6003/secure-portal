@@ -22,12 +22,14 @@ export const LoadingInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     finalize(() => {
-      if (kind === 'global') {
-        loader.hideGlobal();
-      }
-      if (kind === 'auth') {
-        loader.hideAuth();
-      }
+      setTimeout(() => {
+        if (kind === 'global') {
+          loader.hideGlobal();
+        }
+        if (kind === 'auth') {
+          loader.hideAuth();
+        }
+      }, 0);
     })
   );
 };

@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { SessionManager } from './session.manager';
 
 @Injectable({ providedIn: 'root' })
 export class TokenStore {
@@ -6,11 +7,12 @@ export class TokenStore {
   // 🔒 PRIVATE SIGNAL
   // =========================
   private _token = signal<string | null>(null);
+  private sessionManager = inject(SessionManager);
 
   // =========================
   // 🌍 PUBLIC READ-ONLY SIGNALS
   // =========================
-  readonly token = computed(() => this._token());
+  readonly token = computed(() => this.sessionManager.token());
   readonly hasToken = computed(() => !!this._token());
 
   // =========================
