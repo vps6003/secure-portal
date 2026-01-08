@@ -1,0 +1,109 @@
+<div class="p-6 max-w-7xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">Posts</h1>
+
+  <!-- Search (UNCHANGED) -->
+  <input
+    type="text"
+    placeholder="Search posts..."
+    class="mb-4 w-full md:w-1/3 px-3 py-2 border rounded"
+    (input)="onSearch($event)"
+  />
+
+  <!-- Loading -->
+  @if (loading()) {
+  <p class="text-gray-500">Loading posts...</p>
+  }
+
+  <!-- Error -->
+  @if (error()) {
+  <div class="bg-red-50 border border-red-200 p-4 rounded">
+    <p class="text-red-600 mb-2">Failed to load posts</p>
+    <button class="px-4 py-2 bg-red-600 text-white rounded" (click)="retry()">Retry</button>
+  </div>
+  }
+
+  <!-- TABLE -->
+  @if (!loading() && !error()) {
+  <div class="overflow-x-auto">
+    <table class="w-full border border-gray-200 rounded-lg">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left border-b">No.</th>
+          <th class="px-4 py-2 text-left border-b">Title</th>
+          <th class="px-4 py-2 text-left border-b">By</th>
+          <th class="px-4 py-2 text-left border-b">Description</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @if(!noData()){ @for (post of posts(); track post.id; let i = $index) {
+        <tr class="hover:bg-gray-50">
+          <!-- SR NO ONLY -->
+          <td class="px-4 py-2 border-b">
+            {{ (page() - 1) * 10 + i + 1 }}
+          </td>
+
+          <td class="px-4 py-2 border-b font-medium">
+            {{ post.title }}
+          </td>
+
+          <td class="px-4 py-2 border-b font-medium text-cyan-500">
+            {{ users[post.userId - 1]?.name }}
+          </td>
+
+          <td class="px-4 py-2 border-b text-gray-600">
+            {{ post.body }}
+          </td>
+        </tr>
+        }} @else {
+        <div class="p-4">
+          <tr>
+            No Data Found!!
+          </tr>
+          <tr>
+            Kindly change search parameters!!
+          </tr>
+        </div>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex flex-wrap items-center gap-4 mt-6">
+    <!-- Items per page -->
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-600">Items per page:</span>
+      <select class="border rounded px-2 py-1" (change)="changeLimit($event)">
+        @for (opt of limits; track opt) {
+        <option [value]="opt" [selected]="opt === limit()">
+          {{ opt }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!-- Page numbers -->
+    <div class="flex items-center gap-1">
+      <button class="px-3 py-1 border rounded" (click)="prevPage()" [disabled]="prevPg()">
+        Prev
+      </button>
+
+      @for (p of pages(); track p) {
+      <button
+        class="px-3 py-1 border rounded"
+        [class.bg-blue-600]="p === page()"
+        [class.text-white]="p === page()"
+        (click)="goToPage(p)"
+      >
+        {{ p }}
+      </button>
+      }
+
+      <button class="px-3 py-1 border rounded" (click)="nextPage()" [disabled]="nextPg()">
+        Next
+      </button>
+    </div>
+  </div>
+  }
+</div>
