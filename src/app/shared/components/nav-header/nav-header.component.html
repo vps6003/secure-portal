@@ -21,33 +21,34 @@
         </a>
       </li>
 
-      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn()">
-        <a
-          routerLink="/profile"
-          routerLinkActive="!text-cyan-600 border-cyan-500"
-          class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent"
-        >
-          Profile
-        </a>
-      </li>
-
-      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn() && !sessionManager.isAdmin()">
+      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn() || !sessionManager.isAdmin()">
         <a
           routerLink="/admin"
           routerLinkActive="!text-cyan-600 border-cyan-500"
           class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent"
         >
-          Admin
+          All Users
         </a>
       </li>
 
       <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn()">
         <a
-          routerLinkActive="!text-cyan-600 border-cyan-500"
           class="text-gray-600 no-underline font-medium py-2 transition-colors hover:text-cyan-600 relative border-b-2 border-transparent cursor-pointer"
           (click)="logout()"
         >
           Logout
+        </a>
+      </li>
+
+      <!-- Profile icon (rightmost) -->
+      <li class="m-0" [class.hidden]="!sessionManager.isLoggedIn()">
+        <a
+          routerLink="/profile"
+          routerLinkActive="!text-cyan-600"
+          class="text-gray-600 transition-colors hover:text-cyan-600 flex items-center"
+          title="Profile"
+        >
+          <mat-icon class="text-[26px]">account_circle</mat-icon>
         </a>
       </li>
     </ul>

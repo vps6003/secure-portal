@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SessionManager } from '../../../core/auth/session.manager';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-nav-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './nav-header.component.html',
 })
 export class NavHeaderComponent {
