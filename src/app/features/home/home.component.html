@@ -1,5 +1,5 @@
 <div class="p-6 max-w-7xl mx-auto">
-  <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+  <h1 class="text-2xl font-bold mb-4">Posts</h1>
 
   <!-- Search (UNCHANGED) -->
   <input
@@ -30,6 +30,7 @@
         <tr>
           <th class="px-4 py-2 text-left border-b">No.</th>
           <th class="px-4 py-2 text-left border-b">Title</th>
+          <th class="px-4 py-2 text-left border-b">By</th>
           <th class="px-4 py-2 text-left border-b">Description</th>
         </tr>
       </thead>
@@ -44,6 +45,10 @@
 
           <td class="px-4 py-2 border-b font-medium">
             {{ post.title }}
+          </td>
+
+          <td class="px-4 py-2 border-b font-medium text-cyan-500">
+            {{ users[post.userId - 1]?.name }}
           </td>
 
           <td class="px-4 py-2 border-b text-gray-600">

@@ -7,6 +7,7 @@ import { Post } from '../../core/models/api-response.model';
 export class DashboardService {
   private http = inject(HttpClient);
   private API = 'https://jsonplaceholder.typicode.com/posts';
+  private usersAPI = 'https://jsonplaceholder.typicode.com/users';
 
   getPosts(page: number, limit: number, search: string): Observable<Post[]> {
     let params = new HttpParams().set('_page', page).set('_limit', limit);
@@ -16,5 +17,9 @@ export class DashboardService {
     }
 
     return this.http.get<Post[]>(this.API, { params });
+  }
+
+  getUsers(): Observable<any> {
+    return this.http.get<Post[]>(this.usersAPI);
   }
 }

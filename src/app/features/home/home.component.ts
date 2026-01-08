@@ -1,6 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { DashboardService } from '../../shared/services/dashboard.service';
 import { Post } from '../../core/models/api-response.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import { Post } from '../../core/models/api-response.model';
 export class HomeComponent {
   private dashboardService = inject(DashboardService);
 
+  users: any;
   posts = signal<Post[]>([]);
   loading = signal(false);
   error = signal(false);
@@ -51,6 +53,28 @@ export class HomeComponent {
       const search = this.search();
 
       this.fetchPosts(page, search);
+    });
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.fetchUsers();
+  }
+
+  private fetchUsers() {
+    this.loading.set(true);
+    this.error.set(false);
+
+    this.dashboardService.getUsers().subscribe({
+      next: (result: any) => {
+        this.users = result;
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.error.set(true);
+        this.loading.set(false);
+      },
     });
   }
 
