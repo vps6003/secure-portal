@@ -1,0 +1,68 @@
+<div class="max-w-6xl mx-auto p-6">
+  @if (loading()) {
+  <div class="text-center text-gray-500 py-20">Loading profile…</div>
+  } @if (!loading() && user()) {
+  <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+      <h2 class="text-2xl font-bold">{{ user().name }}</h2>
+      <p class="text-sm opacity-90">&#64;{{ user().username }}</p>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Contact Info -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Contact Information</h3>
+
+        <div class="space-y-2 text-sm text-gray-700">
+          <p><span class="font-medium">Email:</span> {{ user().email }}</p>
+          <p><span class="font-medium">Phone:</span> {{ user().phone }}</p>
+
+          @if (user().website) {
+          <p>
+            <span class="font-medium">Website:</span>
+            <a
+              [href]="'https://' + user().website"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-indigo-600 hover:underline"
+            >
+              {{ user().website }}
+            </a>
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Address</h3>
+
+        <div class="text-sm text-gray-700 space-y-1">
+          <p>{{ user().address?.suite }}, {{ user().address?.street }}</p>
+          <p>{{ user().address?.city }} – {{ user().address?.zipcode }}</p>
+          <p class="text-xs text-gray-500">
+            Lat: {{ user().address?.geo?.lat }}, Lng: {{ user().address?.geo?.lng }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Company -->
+      <div class="md:col-span-2">
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Company</h3>
+
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <p class="font-medium text-gray-900">
+            {{ user().company?.name }}
+          </p>
+          <p class="text-sm text-gray-600 italic">"{{ user().company?.catchPhrase }}"</p>
+          <p class="text-xs text-gray-500 mt-1">
+            {{ user().company?.bs }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

@@ -2,12 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from '../../core/models/api-response.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
   private http = inject(HttpClient);
-  private API = 'https://jsonplaceholder.typicode.com/posts';
-  private usersAPI = 'https://jsonplaceholder.typicode.com/users';
+  private postAPI = `${environment.baseApi}posts`;
+  private usersAPI = `${environment.baseApi}users`;
 
   getPosts(page: number, limit: number, search: string): Observable<Post[]> {
     let params = new HttpParams().set('_page', page).set('_limit', limit);
@@ -15,11 +16,15 @@ export class DashboardService {
     if (search) {
       params = params.set('q', search);
     }
-
-    return this.http.get<Post[]>(this.API, { params });
+    return this.http.get<Post[]>(this.postAPI, { params });
   }
 
   getUsers(): Observable<any> {
     return this.http.get<Post[]>(this.usersAPI);
+  }
+
+  getUser(id: any): Observable<any> {
+    let params = new HttpParams().set('id', id);
+    return this.http.get<Post[]>(this.usersAPI, { params });
   }
 }
