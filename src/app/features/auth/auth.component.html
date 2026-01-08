@@ -1,8 +1,10 @@
-<div class="flex items-center justify-center min-h-[calc(100vh-64px)] px-4 py-8 bg-gradient-to-br from-indigo-500 to-purple-600">
+<div
+  class="flex items-center justify-center min-h-[calc(100vh-64px)] px-4 py-8 bg-gradient-to-br from-indigo-500 to-purple-600"
+>
   <div class="w-full max-w-md bg-white rounded-xl shadow-2xl p-10">
     <div class="text-center mb-8">
       <h1 class="text-3xl font-bold text-gray-800 mb-2">
-        {{ isLoginMode() ? 'Welcome Back' : 'Create Account' }}
+        {{ isLoginMode() ? '✨ Welcome ✨' : 'Create Account' }}
       </h1>
       <p class="text-gray-500 text-sm">
         {{ isLoginMode() ? 'Sign in to your account' : 'Sign up to get started' }}
@@ -10,9 +12,9 @@
     </div>
 
     @if (isLoginMode()) {
-      <app-login />
+    <app-login />
     } @else {
-      <app-register />
+    <app-register (signupCompleted)="onSignupCompleted()" />
     }
 
     <div class="mt-6 pt-6 border-t border-gray-200 text-center">
@@ -29,4 +31,3 @@
     </div>
   </div>
 </div>
-

@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { AuthLogin, LoginResponse } from '../../../core/auth/auth.models';
 import { LoaderService } from '../../../core/services/loader.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { SessionManager } from '../../../core/auth/session.manager';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent {
   readonly loader = inject(LoaderService);
 
   private notify = inject(NotificationService);
+  private sessionManager = inject(SessionManager);
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -40,7 +42,7 @@ export class LoginComponent {
       const { email, password, rememberMe } = this.loginForm.value;
 
       // TODO: Implement actual authentication
-      console.log('Login attempt:', { email, password, rememberMe });
+      // console.log('Login attempt:', { email, password, rememberMe });
       const loginObj: AuthLogin = {
         email,
         password,
@@ -49,6 +51,8 @@ export class LoginComponent {
         next: (response: LoginResponse) => {
           // console.log(response);
           this.notify.success('Login Successful!!');
+          this.sessionManager.startSession(response);
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           console.log(err);

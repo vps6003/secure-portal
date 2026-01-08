@@ -1,28 +1,48 @@
-import { Injectable, signal } from '@angular/core';
-
-const TOKEN_KEY = 'auth_token';
+import { Injectable, signal, computed } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class TokenStore {
-  private tokenSignal = signal<string | null>(localStorage.getItem(TOKEN_KEY));
+  // =========================
+  // 🔒 PRIVATE SIGNAL
+  // =========================
+  private _token = signal<string | null>(null);
 
-  token = this.tokenSignal.asReadonly();
+  // =========================
+  // 🌍 PUBLIC READ-ONLY SIGNALS
+  // =========================
+  readonly token = computed(() => this._token());
+  readonly hasToken = computed(() => !!this._token());
 
-  setToken(token: string): void {
-    this.tokenSignal.set(token);
-    localStorage.setItem(TOKEN_KEY, token);
+  // =========================
+  // 🚀 INIT (hydrate token)
+  // =========================
+  constructor() {
+    this.restore();
   }
 
-  clearToken(): void {
-    this.tokenSignal.set(null);
-    localStorage.removeItem(TOKEN_KEY);
+  // =========================
+  // 🔑 SET TOKEN
+  // =========================
+  set(token: string): void {
+    this._token.set(token);
+    localStorage.setItem('token', token);
   }
 
-  getToken(): string | null {
-    return this.tokenSignal();
+  // =========================
+  // ❌ CLEAR TOKEN
+  // =========================
+  clear(): void {
+    this._token.set(null);
+    localStorage.removeItem('token');
   }
 
-  isLoggedIn(): boolean {
-    return !!this.tokenSignal();
+  // =========================
+  // ♻️ RESTORE TOKEN
+  // =========================
+  private restore(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this._token.set(token);
+    }
   }
 }
