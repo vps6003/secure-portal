@@ -1,15 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable, finalize } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { finalize } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
+import { LOADER_KIND } from './loader.context';
 
-@Injectable()
-export class LoadingInterceptor implements HttpInterceptor {
-  constructor(private loader: LoaderService) {}
+export const LoadingInterceptor: HttpInterceptorFn = (req, next) => {
+  const loader = inject(LoaderService);
+  const kind = req.context.get(LOADER_KIND);
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loader.show();
-
-    return next.handle(req).pipe(finalize(() => this.loader.hide()));
+  if (kind === 'none') {
+    return next(req);
   }
-}
+
+  if (kind === 'global') {
+    loader.showGlobal();
+  }
+
+  if (kind === 'auth') {
+    loader.showAuth();
+  }
+
+  return next(req).pipe(
+    finalize(() => {
+      if (kind === 'global') {
+        loader.hideGlobal();
+      }
+      if (kind === 'auth') {
+        loader.hideAuth();
+      }
+    })
+  );
+};

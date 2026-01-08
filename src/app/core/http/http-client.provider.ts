@@ -1,16 +1,12 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { LoadingInterceptor } from './loading.interceptor';
 import { ErrorInterceptor } from './error.interceptor';
+import { AuthInterceptor } from '../auth/auth.interceptor';
 
-export const httpClientProviders = [
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: LoadingInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ErrorInterceptor,
-    multi: true,
-  },
-];
+export const httpClientProvider = provideHttpClient(
+  withInterceptors([
+    LoadingInterceptor,
+    AuthInterceptor,
+    ErrorInterceptor, // must be LAST
+  ])
+);

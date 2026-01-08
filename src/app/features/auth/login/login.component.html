@@ -11,13 +11,10 @@
       [class.border-gray-300]="!(email?.invalid && email?.touched)"
     />
     @if (email?.invalid && email?.touched) {
-      <span class="text-xs text-red-500">
-        @if (email?.errors?.['required']) {
-          Email is required
-        } @else if (email?.errors?.['email']) {
-          Please enter a valid email
-        }
-      </span>
+    <span class="text-xs text-red-500">
+      @if (email?.errors?.['required']) { Email is required } @else if (email?.errors?.['email']) {
+      Please enter a valid email }
+    </span>
     }
   </div>
 
@@ -33,13 +30,10 @@
       [class.border-gray-300]="!(password?.invalid && password?.touched)"
     />
     @if (password?.invalid && password?.touched) {
-      <span class="text-xs text-red-500">
-        @if (password?.errors?.['required']) {
-          Password is required
-        } @else if (password?.errors?.['minlength']) {
-          Password must be at least 6 characters
-        }
-      </span>
+    <span class="text-xs text-red-500">
+      @if (password?.errors?.['required']) { Password is required } @else if
+      (password?.errors?.['minlength']) { Password must be at least 6 characters }
+    </span>
     }
   </div>
 
@@ -48,15 +42,16 @@
       <input type="checkbox" formControlName="rememberMe" class="w-4 h-4 cursor-pointer" />
       <span>Remember me</span>
     </label>
-    <a href="#" class="text-sm text-blue-600 hover:text-blue-700 hover:underline">Forgot password?</a>
+    <a href="#" class="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+      >Forgot password?</a
+    >
   </div>
 
   <button
     type="submit"
     class="w-full py-3.5 bg-blue-600 text-white rounded-md text-base font-semibold cursor-pointer transition-colors mt-2 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
-    [disabled]="isSubmitting || loginForm.invalid"
+    [disabled]="loader.isAuthLoading() || loginForm.invalid"
   >
-    {{ isSubmitting ? 'Signing in...' : 'Sign in' }}
+    {{ loader.isAuthLoading() ? 'Signing in...' : 'Sign in' }}
   </button>
 </form>
-
