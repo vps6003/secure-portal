@@ -6,10 +6,10 @@ This project is a frontend application developed as part of the Frontend Develop
 The application includes authentication, protected routes, a dashboard with paginated data, and a structured layout with header and footer components.
 
 ## Live Demo
-🔗 Live Application: <PASTE_LIVE_LINK_HERE>
+🔗 Live Application: https://secure-portal-ch0z.onrender.com
 
 ## Repository
-🔗 GitHub Repository: <PASTE_GITHUB_REPO_LINK_HERE>
+🔗 GitHub Repository: (https://github.com/vps6003/secure-portal)
 
 ---
 
@@ -74,7 +74,7 @@ The application includes authentication, protected routes, a dashboard with pagi
 
 ## Setup Instructions
 ```bash
-git clone <REPO_LINK>
-cd <PROJECT_FOLDER>
+git clone https://github.com/vps6003/secure-portal
+cd secure-portal
 npm install
 ng serve
