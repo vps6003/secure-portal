@@ -11,9 +11,9 @@ export class ProfileServiceImpl {
   private session = inject(SessionManager);
 
   // state
-  user = signal<any | null>(null);
+  user = signal<any>(null);
   loading = signal(true);
-  users = signal<any[] | null>([]);
+  users = signal<any[]>([]);
   hasUsers = computed(() => this.dashboardServiceImpl.users().length > 0);
 
   getUsers() {
