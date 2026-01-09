@@ -1,59 +1,80 @@
-# SecurePortal
+# Frontend Developer Assignment – Sentra.World
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+## Overview
+This project is a frontend application developed as part of the Frontend Developer assignment for Sentra.World. The focus of the implementation is on authentication flow, state management using Angular Signals, clean architecture, and handling list-based data with pagination and search.
 
-## Development server
+The application includes authentication, protected routes, a dashboard with paginated data, and a structured layout with header and footer components.
 
-To start a local development server, run:
+## Live Demo
+🔗 Live Application: https://secure-portal-ch0z.onrender.com
 
+## Repository
+🔗 GitHub Repository: (https://github.com/vps6003/secure-portal)
+
+---
+
+## Tech Stack
+- **Framework:** Angular 19+
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Components:** Angular Material
+- **State Management:** Angular Signals + localStorage
+- **Routing Strategy:** Hash-based routing
+- **HTTP Handling:** Angular HttpClient with global interceptor
+
+---
+
+## Features
+
+### Authentication
+- Login and Register functionality using a personally deployed backend API
+- JWT-based authentication
+- Token stored in `localStorage`
+- Global HTTP interceptor to attach JWT to authenticated requests
+- Unified loader signal for Login and Register flows
+
+### Route Protection
+- Auth Guards implemented to protect private routes
+- Automatic redirection for unauthorized access
+
+### Dashboard
+- Displays posts in a tabular format
+- Backend-driven pagination
+- Retry button for failed API calls
+- Error and loading states handled gracefully
+
+### Search
+- Debounced search with a delay of 0.5 seconds
+- Auto-search triggered on typing
+- Search results are paginated and integrated with existing listing logic
+
+### Profile Page
+- Displays authenticated user information
+
+### Layout & Navigation
+- Header navigation bar
+- Footer component
+- Structured routing for all pages
+
+---
+
+## APIs Used
+- **Posts Data:** JSONPlaceholder (public API)
+- **Authentication:** Custom deployed API for Login and Register
+
+---
+
+## Architecture & Approach
+- Used Angular **Services** and **Interfaces** to separate business logic from components
+- Avoided heavy logic inside components to keep them clean and maintainable
+- Centralized state handling using Signals
+- Implemented error handling for all API calls
+
+---
+
+## Setup Instructions
 ```bash
+git clone https://github.com/vps6003/secure-portal
+cd secure-portal
+npm install
 ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
