@@ -1,21 +1,31 @@
 <div class="p-6 max-w-7xl mx-auto">
-  <h1 class="text-2xl font-bold mb-4">Posts</h1>
+  <div class="grid grid-cols-5 grid-rows-2 gap-4 mb-4 items-center">
+    <!-- Posts -->
+    <h1 class="col-span-2 row-start-1 text-2xl font-bold">Posts</h1>
 
-  <!-- Search (UNCHANGED) -->
-  <input
-    type="text"
-    placeholder="Search posts..."
-    class="mb-4 w-full md:w-1/3 px-3 py-2 border rounded"
-    (input)="onSearch($event)"
-  />
+    <!-- Search (narrow) -->
+    <input
+      type="text"
+      placeholder="Search posts..."
+      class="col-span-1 row-start-2 w-full px-3 py-2 border rounded"
+      (input)="onSearch($event)"
+    />
+
+    <!-- Welcome (big, dominant) -->
+    <div class="col-span-3 row-span-2 flex justify-end items-center">
+      <h2 class="text-3xl font-bold text-gray-700">
+        Welcome, {{ dashboardServiceImpl.users()[userId - 1]?.name }} 👋
+      </h2>
+    </div>
+  </div>
 
   <!-- Loading -->
-  @if (loading()) {
+  @if (dashboardServiceImpl.loading()) {
   <p class="text-gray-500">Loading posts...</p>
   }
 
   <!-- Error -->
-  @if (error()) {
+  @if (dashboardServiceImpl.error()) {
   <div class="bg-red-50 border border-red-200 p-4 rounded">
     <p class="text-red-600 mb-2">Failed to load posts</p>
     <button class="px-4 py-2 bg-red-600 text-white rounded" (click)="retry()">Retry</button>
@@ -23,7 +33,7 @@
   }
 
   <!-- TABLE -->
-  @if (!loading() && !error()) {
+  @if (!dashboardServiceImpl.loading() && !dashboardServiceImpl.error()) {
   <div class="overflow-x-auto">
     <table class="w-full border border-gray-200 rounded-lg">
       <thead class="bg-gray-100">
@@ -36,11 +46,12 @@
       </thead>
 
       <tbody>
-        @if(!noData()){ @for (post of posts(); track post.id; let i = $index) {
+        @if(!dashboardServiceImpl.noData()){ @for (post of dashboardServiceImpl.posts(); track
+        post.id; let i = $index) {
         <tr class="hover:bg-gray-50">
           <!-- SR NO ONLY -->
           <td class="px-4 py-2 border-b">
-            {{ (page() - 1) * 10 + i + 1 }}
+            {{ (dashboardServiceImpl.page() - 1) * 10 + i + 1 }}
           </td>
 
           <td class="px-4 py-2 border-b font-medium">
@@ -48,7 +59,7 @@
           </td>
 
           <td class="px-4 py-2 border-b font-medium text-cyan-500">
-            {{ users[post.userId - 1]?.name }}
+            {{ dashboardServiceImpl.users()[post.userId - 1]?.name }}
           </td>
 
           <td class="px-4 py-2 border-b text-gray-600">
@@ -67,13 +78,13 @@
   </div>
 
   <!-- Pagination -->
-  <div class="flex flex-wrap items-center gap-4 mt-6">
+  <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
     <!-- Items per page -->
     <div class="flex items-center gap-2">
       <span class="text-sm text-gray-600">Items per page:</span>
       <select class="border rounded px-2 py-1" (change)="changeLimit($event)">
-        @for (opt of limits; track opt) {
-        <option [value]="opt" [selected]="opt === limit()">
+        @for (opt of dashboardServiceImpl.limits; track opt) {
+        <option [value]="opt" [selected]="opt === dashboardServiceImpl.limit()">
           {{ opt }}
         </option>
         }
@@ -82,22 +93,30 @@
 
     <!-- Page numbers -->
     <div class="flex items-center gap-1">
-      <button class="px-3 py-1 border rounded" (click)="prevPage()" [disabled]="prevPg()">
+      <button
+        class="px-3 py-1 border rounded"
+        (click)="prevPage()"
+        [disabled]="dashboardServiceImpl.prevPg()"
+      >
         Prev
       </button>
 
-      @for (p of pages(); track p) {
+      @for (p of dashboardServiceImpl.pages(); track p) {
       <button
         class="px-3 py-1 border rounded"
-        [class.bg-blue-600]="p === page()"
-        [class.text-white]="p === page()"
+        [class.bg-blue-600]="p === dashboardServiceImpl.page()"
+        [class.text-white]="p === dashboardServiceImpl.page()"
         (click)="goToPage(p)"
       >
         {{ p }}
       </button>
       }
 
-      <button class="px-3 py-1 border rounded" (click)="nextPage()" [disabled]="nextPg()">
+      <button
+        class="px-3 py-1 border rounded"
+        (click)="nextPage()"
+        [disabled]="dashboardServiceImpl.nextPg()"
+      >
         Next
       </button>
     </div>

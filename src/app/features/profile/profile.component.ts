@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardService } from '../../shared/services/dashboard.service';
-import { SessionManager } from '../../core/auth/session.manager';
+import { ProfileServiceImpl } from '../../shared/services/impl/profile.service.impl';
 
 @Component({
   selector: 'app-profile',
@@ -10,29 +9,13 @@ import { SessionManager } from '../../core/auth/session.manager';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent {
-  private dashboardService = inject(DashboardService);
-  private session = inject(SessionManager);
-
-  // state
-  user = signal<any | null>(null);
-  loading = signal(true);
+  profileServiceImpl = inject(ProfileServiceImpl);
 
   ngOnInit(): void {
-    this.dashboardService.getUsers().subscribe({
-      next: (res) => {
-        // API returns ARRAY → extract first user
-        this.user.set(res[this.userId - 1] ?? null);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Profile fetch failed', err);
-        this.loading.set(false);
-      },
-    });
+    this.profileServiceImpl.getUsers();
   }
 
   get userId() {
-    const user: any = this.session.user();
-    return user?.userId ?? 1;
+    return this.profileServiceImpl.userId;
   }
 }
