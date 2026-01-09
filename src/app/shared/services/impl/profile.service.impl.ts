@@ -21,6 +21,7 @@ export class ProfileServiceImpl {
       this.users.set(this.dashboardServiceImpl.users());
       const users: any[] = this.users() ?? [];
       this.user.set(users[this.userId - 1]);
+      this.loading.set(false);
       return;
     }
     this.dashboardService.getUsers().subscribe({
